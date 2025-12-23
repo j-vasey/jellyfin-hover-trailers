@@ -1,0 +1,16 @@
+[
+  {
+    "guid": "d4f5e6b7-c8a9-4d0e-9f1a-2b3c4d5e6f70",
+    "name": "Jellyfin Hover Trailers",
+    "overview": null,
+    "description": "Enables hover trailers in Jellyfin web interface.",
+    "owner": "J-Vasey",
+    "versions": [
+      {
+        "version": "1.0.0",
+        "download_url": "https://example.com/jellyfin-hover-trailers-1.0.0.zip",
+        "changelog": "Initial release with hover trailer functionality."
+      }
+    ]
+  }
+]
