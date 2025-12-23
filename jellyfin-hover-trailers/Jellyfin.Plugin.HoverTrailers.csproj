@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <RootNamespace>Jellyfin.Plugin.HoverTrailers</RootNamespace>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="configuration\configPage.html" />
+    <None Remove="web\hoverTrailers.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="configuration\configPage.html" />
+    <EmbeddedResource Include="web\hoverTrailers.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Jellyfin.Controller" Version="10.11.5" />
+    <PackageReference Include="Jellyfin.Model" Version="10.11.5" />
+  </ItemGroup>
+
+</Project>
