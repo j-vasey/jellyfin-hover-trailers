@@ -24,22 +24,24 @@ namespace Jellyfin.Plugin.HoverTrailers
         // This links your HTML file to the Jellyfin Dashboard
         public IEnumerable<PluginPageInfo> GetPages()
         {
+            var assemblyName = GetType().Assembly.GetName().Name;
+
             return new[]
             {
-                // Settings Page
-                new PluginPageInfo
-                {
-                    Name = "HoverTrailers",
-                    EmbeddedResourcePath = "Jellyfin.Plugin.HoverTrailers.Configuration.configPage.html"
-                },
-                // The script itself
-                new PluginPageInfo
-                {
-                    Name = "hoverTrailersScript",
-                    EmbeddedResourcePath = "Jellyfin.Plugin.HoverTrailers.web.hoverTrailers.js",
-                    EnableInMainMenu = false // This prevents it from showing up as a button
-                }
-            };
+        // Settings page
+        new PluginPageInfo
+        {
+            Name = "HoverTrailers",
+            EmbeddedResourcePath = $"{assemblyName}.Configuration.configPage.html"
+        },
+        // The hover logic script
+        new PluginPageInfo
+        {
+            Name = "hoverTrailersScript", // Internal name Jellyfin uses to serve the file
+            EmbeddedResourcePath = $"{assemblyName}.Web.hoverTrailers.js",
+            EnableInMainMenu = false
+        }
+    };
         }
     };
 }
