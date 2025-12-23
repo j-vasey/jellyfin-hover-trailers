@@ -7,6 +7,14 @@
     "owner": "J-Vasey",
     "versions": [
       {
+        "version": "1.0.1",
+        "targetAbi": "10.11.5",
+        "changelog": "Initial release with hover trailer functionality.",
+        "checksum": "d49f80940ac472a4659ebcee0bdf6437",
+        "sourceUrl": "https://github.com/j-vasey/jellyfin-hover-trailers/releases/download/1.0.1/Release-1.0.1.zip",
+        "timestamp": "2025-12-23T16:00:00"
+      },
+      {
         "version": "1.0.0",
         "targetAbi": "10.11.5",
         "changelog": "Initial release with hover trailer functionality.",
