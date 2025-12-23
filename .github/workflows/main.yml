@@ -26,22 +26,15 @@ jobs:
           $version = $tag.TrimStart('v')
           $manifestPath = "manifest.json"
           
-          # Use the environment variable to avoid ParserErrors from direct injection
           $assets = $env:RELEASE_ASSETS | ConvertFrom-Json
           $asset = $assets | Where-Object { $_.name -like "*.zip" } | Select-Object -First 1
           
-          if (-not $asset) { 
-              Write-Error "No .zip asset found in the release! Upload your zip before publishing."
-              exit 1 
-          }
+          if (-not $asset) { exit 1 }
           
           $sourceUrl = $asset.browser_download_url
-          
-          # Download and calculate MD5
           Invoke-WebRequest -Uri $sourceUrl -OutFile "temp_plugin.zip"
           $hash = (Get-FileHash "temp_plugin.zip" -Algorithm MD5).Hash.ToLower()
           
-          # Load existing manifest
           $manifest = Get-Content $manifestPath -Raw | ConvertFrom-Json
           
           $newVersion = @{
@@ -53,12 +46,11 @@ jobs:
               timestamp = (Get-Date -Format "yyyy-MM-ddTHH:mm:ss")
           }
 
-          # Prepend the new version to the existing list
           $manifest[0].versions = @($newVersion) + $manifest[0].versions
           
-          # Save manifest back to file
-          $manifest | ConvertTo-Json -Depth 10 | Out-File $manifestPath -Encoding utf8
-
+          # This line preserves the [] brackets
+          @($manifest) | ConvertTo-Json -Depth 10 | Out-File $manifestPath -Encoding utf8
+          
       - name: Commit and Push Manifest Changes
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
