@@ -30,13 +30,13 @@ namespace Jellyfin.Plugin.HoverTrailers
                 new PluginPageInfo
                 {
                     Name = "HoverTrailers",
-                    EmbeddedResourcePath = "Jellyfin.Plugin.HoverTrailers.Configuration.configPage.html"
+                    EmbeddedResourcePath = "Jellyfin.Plugin.HoverTrailers.configuration.configPage.html"
                 },
                 // The script itself
                 new PluginPageInfo
                 {
                     Name = "hoverTrailersScript",
-                    EmbeddedResourcePath = "Jellyfin.Plugin.HoverTrailers.Web.hoverTrailers.js",
+                    EmbeddedResourcePath = "Jellyfin.Plugin.HoverTrailers.web.hoverTrailers.js",
                     EnableInMainMenu = false // This prevents it from showing up as a button
                 }
             };
