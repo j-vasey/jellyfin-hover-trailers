@@ -10,7 +10,7 @@ namespace Jellyfin.Plugin.HoverTrailers
 {
     public class Plugin : BasePlugin<PluginConfiguration>, IHasWebPages
     {
-        public override string Name => "Hover Trailers";
+        public override string Name => "Jellyfin Hover Trailers";
         public override Guid Id => Guid.Parse("FCBEE76B-7170-410F-9029-B3B2E5F5EDA4"); // Use Visual Studio > Tools > Create GUID
 
         public Plugin(IApplicationPaths applicationPaths, IXmlSerializer xmlSerializer)
