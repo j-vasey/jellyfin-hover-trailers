@@ -1,4 +1,4 @@
-name: Build and Update Manifest
+name: Update Plugin Manifest
 
 on:
   release:
@@ -7,65 +7,51 @@ on:
 jobs:
   update-manifest:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Set up .NET
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: '8.0.x'
-
-      - name: Build Plugin
-        run: dotnet build -c Release
-
-      - name: Create Plugin Zip
-        run: |
-          # Replace 'Jellyfin.Plugin.HoverTrailers' with your actual assembly name
-          zip -j Release-${{ github.event.release.tag_name }}.zip bin/Release/net8.0/Jellyfin.Plugin.HoverTrailers.dll
-
-      - name: Calculate Checksum and Update Manifest
+      - name: Update Manifest
         shell: pwsh
         run: |
-          $version = "${{ github.event.release.tag_name }}".TrimStart('v')
-          $zipFile = "Release-${{ github.event.release.tag_name }}.zip"
+          $tag = "${{ github.event.release.tag_name }}"
+          $version = $tag.TrimStart('v')
           $manifestPath = "manifest.json"
           
-          # Calculate MD5 Checksum
-          $hash = (Get-FileHash $zipFile -Algorithm MD5).Hash.ToLower()
+          # 1. Fetch the zip asset URL from the release metadata
+          $asset = ${{ toJSON(github.event.release.assets) }} | ConvertFrom-Json | Where-Object { $_.name -like "*.zip" } | Select-Object -First 1
+          if (-not $asset) { throw "No .zip asset found in the release!" }
           
-          # Load existing manifest
+          $sourceUrl = $asset.browser_download_url
+          
+          # 2. Download the zip to calculate MD5 (Jellyfin requirement)
+          Invoke-WebRequest -Uri $sourceUrl -OutFile "temp_plugin.zip"
+          $hash = (Get-FileHash "temp_plugin.zip" -Algorithm MD5).Hash.ToLower()
+          
+          # 3. Load existing manifest and prepend new version
           $manifest = Get-Content $manifestPath | ConvertFrom-Json
           
-          # Create new version entry based on your manifest structure
           $newVersion = @{
               version = $version
-              targetAbi = "10.11.5"
+              targetAbi = "10.11.5" # Update this as needed for your Jellyfin target
               changelog = "${{ github.event.release.body }}"
               checksum = $hash
-              sourceUrl = "https://github.com/${{ github.repository }}/releases/download/${{ github.event.release.tag_name }}/$zipFile"
+              sourceUrl = $sourceUrl
               timestamp = (Get-Date -Format "yyyy-MM-ddTHH:mm:ss")
           }
 
-          # Add to the beginning of the versions array
+          # Update the versions array for the first plugin in the manifest
           $manifest[0].versions = @($newVersion) + $manifest[0].versions
           
-          # Save back to manifest.json
+          # 4. Save back to manifest.json with clean formatting
           $manifest | ConvertTo-Json -Depth 10 | Out-File $manifestPath -Encoding utf8
 
-      - name: Commit and Push Manifest
-        run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          git add manifest.json
-          git commit -m "Update manifest for version ${{ github.event.release.tag_name }}"
-          git push
-
-      - name: Upload Zip to Release
-        uses: softprops/action-gh-release@v1
+      - name: Commit and Push Manifest Changes
+        uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          files: Release-${{ github.event.release.tag_name }}.zip
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          commit_message: "chore: update manifest for version ${{ github.event.release.tag_name }}"
+          file_pattern: 'manifest.json'
