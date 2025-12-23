@@ -1,5 +1,4 @@
-[
-  {
+{
   "guid": "FCBEE76B-7170-410F-9029-B3B2E5F5EDA4",
   "name": "Jellyfin Hover Trailers",
   "overview": null,
@@ -7,28 +6,20 @@
   "owner": "J-Vasey",
   "versions": [
     {
-      "checksum": "4e591bbaa3b6df5e3d756bd6196a62d7",
-      "timestamp": "2025-12-23T17:00:22",
-      "version": "1.0.6",
-      "changelog": "1.0.6",
-      "sourceUrl": "https://github.com/j-vasey/jellyfin-hover-trailers/releases/download/1.0.6/Release-1.0.6.zip",
-      "targetAbi": "10.11.5"
+      "timestamp": "2025-12-23T17:17:51",
+      "changelog": "1.0.7 ",
+      "targetAbi": "10.11.5",
+      "version": "1.0.7",
+      "checksum": "3e8f82122e084942d94b3db2eea263bb",
+      "sourceUrl": "https://github.com/j-vasey/jellyfin-hover-trailers/releases/download/1.0.7/Release-1.0.7.zip"
     },
     {
-      "sourceUrl": "https://github.com/j-vasey/jellyfin-hover-trailers/releases/download/1.0.6/Release-1.0.6.zip",
-      "timestamp": "2025-12-23T16:58:02",
+      "checksum": "3e8f82122e084942d94b3db2eea263bb",
       "targetAbi": "10.11.5",
-      "version": "1.0.6",
-      "checksum": "4e591bbaa3b6df5e3d756bd6196a62d7",
-      "changelog": "1.0.6"
-    },
-    {
-      "version": "1.0.6",
-      "targetAbi": "10.11.5",
-      "changelog": "1.0.6",
-      "timestamp": "2025-12-23T16:53:04",
-      "sourceUrl": "https://github.com/j-vasey/jellyfin-hover-trailers/releases/download/1.0.6/Release-1.0.6.zip",
-      "checksum": "4e591bbaa3b6df5e3d756bd6196a62d7"
+      "timestamp": "2025-12-23T17:12:35",
+      "changelog": "1.0.7",
+      "sourceUrl": "https://github.com/j-vasey/jellyfin-hover-trailers/releases/download/1.0.7/Release-1.0.7.zip",
+      "version": "1.0.7"
     },
     {
       "version": "1.0.5",
@@ -72,4 +63,3 @@
     }
   ]
 }
-]
