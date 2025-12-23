@@ -26,7 +26,7 @@
 
     async function fetchTmdbTrailer(tmdbId) {
         // Fetch your API Key from the Plugin Configuration
-        const config = await ApiClient.getPluginConfiguration("d4f5e6b7-c8a9-4d0e-9f1a-2b3c4d5e6f70");
+        const config = await ApiClient.getPluginConfiguration("FCBEE76B-7170-410F-9029-B3B2E5F5EDA4");
         const apiKey = config.TmdbApiKey;
 
         if (!apiKey) return null;
