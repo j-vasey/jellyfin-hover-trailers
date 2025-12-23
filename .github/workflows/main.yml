@@ -14,7 +14,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          ref: master
+          ref: master # Explicitly targets your master branch
 
       - name: Update Manifest
         shell: pwsh
@@ -26,7 +26,7 @@ jobs:
           $version = $tag.TrimStart('v')
           $manifestPath = "manifest.json"
           
-          # 1. Parse assets from the environment variable (safer than direct injection)
+          # Use the environment variable to avoid ParserErrors from direct injection
           $assets = $env:RELEASE_ASSETS | ConvertFrom-Json
           $asset = $assets | Where-Object { $_.name -like "*.zip" } | Select-Object -First 1
           
@@ -37,11 +37,11 @@ jobs:
           
           $sourceUrl = $asset.browser_download_url
           
-          # 2. Download and checksum
+          # Download and calculate MD5
           Invoke-WebRequest -Uri $sourceUrl -OutFile "temp_plugin.zip"
           $hash = (Get-FileHash "temp_plugin.zip" -Algorithm MD5).Hash.ToLower()
           
-          # 3. Load existing manifest and prepend
+          # Load existing manifest
           $manifest = Get-Content $manifestPath -Raw | ConvertFrom-Json
           
           $newVersion = @{
@@ -53,14 +53,15 @@ jobs:
               timestamp = (Get-Date -Format "yyyy-MM-ddTHH:mm:ss")
           }
 
-          # Update the versions array for the correct GUID
+          # Prepend the new version to the existing list
           $manifest[0].versions = @($newVersion) + $manifest[0].versions
           
-          # 4. Save with clean JSON formatting
+          # Save manifest back to file
           $manifest | ConvertTo-Json -Depth 10 | Out-File $manifestPath -Encoding utf8
 
       - name: Commit and Push Manifest Changes
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
+          branch: master # Force the commit action to use master
           commit_message: "chore: update manifest for version ${{ github.event.release.tag_name }}"
           file_pattern: 'manifest.json'
