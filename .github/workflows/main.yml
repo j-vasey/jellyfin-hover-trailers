@@ -14,40 +14,49 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          ref: main
 
       - name: Update Manifest
         shell: pwsh
+        env:
+          RELEASE_ASSETS: ${{ toJSON(github.event.release.assets) }}
+          RELEASE_BODY: ${{ github.event.release.body }}
         run: |
           $tag = "${{ github.event.release.tag_name }}"
           $version = $tag.TrimStart('v')
           $manifestPath = "manifest.json"
           
-          # 1. Fetch the zip asset URL from the release metadata
-          $asset = ${{ toJSON(github.event.release.assets) }} | ConvertFrom-Json | Where-Object { $_.name -like "*.zip" } | Select-Object -First 1
-          if (-not $asset) { throw "No .zip asset found in the release!" }
+          # 1. Parse assets from the environment variable (safer than direct injection)
+          $assets = $env:RELEASE_ASSETS | ConvertFrom-Json
+          $asset = $assets | Where-Object { $_.name -like "*.zip" } | Select-Object -First 1
+          
+          if (-not $asset) { 
+              Write-Error "No .zip asset found in the release! Upload your zip before publishing."
+              exit 1 
+          }
           
           $sourceUrl = $asset.browser_download_url
           
-          # 2. Download the zip to calculate MD5 (Jellyfin requirement)
+          # 2. Download and checksum
           Invoke-WebRequest -Uri $sourceUrl -OutFile "temp_plugin.zip"
           $hash = (Get-FileHash "temp_plugin.zip" -Algorithm MD5).Hash.ToLower()
           
-          # 3. Load existing manifest and prepend new version
-          $manifest = Get-Content $manifestPath | ConvertFrom-Json
+          # 3. Load existing manifest and prepend
+          $manifest = Get-Content $manifestPath -Raw | ConvertFrom-Json
           
           $newVersion = @{
               version = $version
-              targetAbi = "10.11.5" # Update this as needed for your Jellyfin target
-              changelog = "${{ github.event.release.body }}"
+              targetAbi = "10.11.5"
+              changelog = $env:RELEASE_BODY
               checksum = $hash
               sourceUrl = $sourceUrl
               timestamp = (Get-Date -Format "yyyy-MM-ddTHH:mm:ss")
           }
 
-          # Update the versions array for the first plugin in the manifest
+          # Update the versions array for the correct GUID
           $manifest[0].versions = @($newVersion) + $manifest[0].versions
           
-          # 4. Save back to manifest.json with clean formatting
+          # 4. Save with clean JSON formatting
           $manifest | ConvertTo-Json -Depth 10 | Out-File $manifestPath -Encoding utf8
 
       - name: Commit and Push Manifest Changes
