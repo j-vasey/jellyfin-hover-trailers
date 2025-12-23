@@ -1,4 +1,5 @@
-{
+[
+  {
   "guid": "FCBEE76B-7170-410F-9029-B3B2E5F5EDA4",
   "name": "Jellyfin Hover Trailers",
   "overview": null,
@@ -63,3 +64,4 @@
     }
   ]
 }
+]
