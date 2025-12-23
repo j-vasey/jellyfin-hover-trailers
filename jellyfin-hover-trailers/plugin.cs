@@ -30,7 +30,7 @@ namespace Jellyfin.Plugin.HoverTrailers
                 new PluginPageInfo
                 {
                     Name = "HoverTrailers",
-                    EmbeddedResourcePath = "Jellyfin.Plugin.HoverTrailers.configuration.configPage.html"
+                    EmbeddedResourcePath = "Jellyfin.Plugin.HoverTrailers.Configuration.configPage.html"
                 },
                 // The script itself
                 new PluginPageInfo
