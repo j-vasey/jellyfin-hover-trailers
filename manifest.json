@@ -6,6 +6,14 @@
   "owner": "J-Vasey",
   "versions": [
     {
+      "sourceUrl": "https://github.com/j-vasey/jellyfin-hover-trailers/releases/download/1.0.6/Release-1.0.6.zip",
+      "timestamp": "2025-12-23T16:58:02",
+      "targetAbi": "10.11.5",
+      "version": "1.0.6",
+      "checksum": "4e591bbaa3b6df5e3d756bd6196a62d7",
+      "changelog": "1.0.6"
+    },
+    {
       "version": "1.0.6",
       "targetAbi": "10.11.5",
       "changelog": "1.0.6",
