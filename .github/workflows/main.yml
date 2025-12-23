@@ -26,15 +26,18 @@ jobs:
           $version = $tag.TrimStart('v')
           $manifestPath = "manifest.json"
           
+          # Use Environment variables to avoid ParserErrors
           $assets = $env:RELEASE_ASSETS | ConvertFrom-Json
           $asset = $assets | Where-Object { $_.name -like "*.zip" } | Select-Object -First 1
           
           if (-not $asset) { exit 1 }
           
+          # Download and hash
           $sourceUrl = $asset.browser_download_url
           Invoke-WebRequest -Uri $sourceUrl -OutFile "temp_plugin.zip"
           $hash = (Get-FileHash "temp_plugin.zip" -Algorithm MD5).Hash.ToLower()
           
+          # Load existing manifest as an array
           $manifest = Get-Content $manifestPath -Raw | ConvertFrom-Json
           
           $newVersion = @{
@@ -46,10 +49,11 @@ jobs:
               timestamp = (Get-Date -Format "yyyy-MM-ddTHH:mm:ss")
           }
 
+          # Update the versions list
           $manifest[0].versions = @($newVersion) + $manifest[0].versions
           
-          # This line preserves the [] brackets
-          @($manifest) | ConvertTo-Json -Depth 10 | Out-File $manifestPath -Encoding utf8
+          # FORCE ARRAY OUTPUT: The comma is key here
+          ,$manifest | ConvertTo-Json -Depth 10 | Out-File $manifestPath -Encoding utf8
           
       - name: Commit and Push Manifest Changes
         uses: stefanzweifel/git-auto-commit-action@v5
