@@ -1,51 +1,57 @@
-[
-  {
-    "guid": "FCBEE76B-7170-410F-9029-B3B2E5F5EDA4",
-    "name": "Jellyfin Hover Trailers",
-    "overview": null,
-    "description": "Enables hover trailers in Jellyfin web interface.",
-    "owner": "J-Vasey",
-    "versions": [
-      {
-        "version": "1.0.5",
-        "targetAbi": "10.11.5",
-        "changelog": "Fixed GUID.",
-        "checksum": "e9e3857df8ea1374d3570b2b542bd7d1",
-        "sourceUrl": "https://github.com/j-vasey/jellyfin-hover-trailers/releases/download/1.0.5/Release-1.0.5.zip",
-        "timestamp": "2025-12-23T16:42:00"
-      },
-      {
-        "version": "1.0.4",
-        "targetAbi": "10.11.5",
-        "changelog": "Added JS Logic.",
-        "checksum": "e70a663b2330095e8b8583e6bcdf968d",
-        "sourceUrl": "https://github.com/j-vasey/jellyfin-hover-trailers/releases/download/1.0.4/Release-1.0.4.zip",
-        "timestamp": "2025-12-23T16:32:00"
-      },
-       {
-        "version": "1.0.3",
-        "targetAbi": "10.11.5",
-        "changelog": "Updated naming and fixing actions.",
-        "checksum": "f4208ed22b1bf1cc8ad70c229ae7af5d",
-        "sourceUrl": "https://github.com/j-vasey/jellyfin-hover-trailers/releases/download/1.0.3/Release-1.0.3.zip",
-        "timestamp": "2025-12-23T16:20:00"
-      },
-      {
-        "version": "1.0.1",
-        "targetAbi": "10.11.5",
-        "changelog": "Initial release with hover trailer functionality.",
-        "checksum": "d49f80940ac472a4659ebcee0bdf6437",
-        "sourceUrl": "https://github.com/j-vasey/jellyfin-hover-trailers/releases/download/1.0.1/Release-1.0.1.zip",
-        "timestamp": "2025-12-23T16:00:00"
-      },
-      {
-        "version": "1.0.0",
-        "targetAbi": "10.11.5",
-        "changelog": "Initial release with hover trailer functionality.",
-        "checksum": "019ae558a11b780b8df72886e59e3bba",
-        "sourceUrl": "https://github.com/j-vasey/jellyfin-hover-trailers/releases/download/1.0.0/Release-1.0.0.zip",
-        "timestamp": "2025-12-23T15:48:46"
-      }
-    ]
-  }
-]
+{
+  "guid": "FCBEE76B-7170-410F-9029-B3B2E5F5EDA4",
+  "name": "Jellyfin Hover Trailers",
+  "overview": null,
+  "description": "Enables hover trailers in Jellyfin web interface.",
+  "owner": "J-Vasey",
+  "versions": [
+    {
+      "version": "1.0.6",
+      "targetAbi": "10.11.5",
+      "changelog": "1.0.6",
+      "timestamp": "2025-12-23T16:53:04",
+      "sourceUrl": "https://github.com/j-vasey/jellyfin-hover-trailers/releases/download/1.0.6/Release-1.0.6.zip",
+      "checksum": "4e591bbaa3b6df5e3d756bd6196a62d7"
+    },
+    {
+      "version": "1.0.5",
+      "targetAbi": "10.11.5",
+      "changelog": "Fixed GUID.",
+      "checksum": "e9e3857df8ea1374d3570b2b542bd7d1",
+      "sourceUrl": "https://github.com/j-vasey/jellyfin-hover-trailers/releases/download/1.0.5/Release-1.0.5.zip",
+      "timestamp": "2025-12-23T16:42:00"
+    },
+    {
+      "version": "1.0.4",
+      "targetAbi": "10.11.5",
+      "changelog": "Added JS Logic.",
+      "checksum": "e70a663b2330095e8b8583e6bcdf968d",
+      "sourceUrl": "https://github.com/j-vasey/jellyfin-hover-trailers/releases/download/1.0.4/Release-1.0.4.zip",
+      "timestamp": "2025-12-23T16:32:00"
+    },
+    {
+      "version": "1.0.3",
+      "targetAbi": "10.11.5",
+      "changelog": "Updated naming and fixing actions.",
+      "checksum": "f4208ed22b1bf1cc8ad70c229ae7af5d",
+      "sourceUrl": "https://github.com/j-vasey/jellyfin-hover-trailers/releases/download/1.0.3/Release-1.0.3.zip",
+      "timestamp": "2025-12-23T16:20:00"
+    },
+    {
+      "version": "1.0.1",
+      "targetAbi": "10.11.5",
+      "changelog": "Initial release with hover trailer functionality.",
+      "checksum": "d49f80940ac472a4659ebcee0bdf6437",
+      "sourceUrl": "https://github.com/j-vasey/jellyfin-hover-trailers/releases/download/1.0.1/Release-1.0.1.zip",
+      "timestamp": "2025-12-23T16:00:00"
+    },
+    {
+      "version": "1.0.0",
+      "targetAbi": "10.11.5",
+      "changelog": "Initial release with hover trailer functionality.",
+      "checksum": "019ae558a11b780b8df72886e59e3bba",
+      "sourceUrl": "https://github.com/j-vasey/jellyfin-hover-trailers/releases/download/1.0.0/Release-1.0.0.zip",
+      "timestamp": "2025-12-23T15:48:46"
+    }
+  ]
+}
