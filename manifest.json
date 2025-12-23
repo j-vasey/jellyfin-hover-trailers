@@ -8,8 +8,11 @@
     "versions": [
       {
         "version": "1.0.0",
-        "download_url": "https://example.com/jellyfin-hover-trailers-1.0.0.zip",
-        "changelog": "Initial release with hover trailer functionality."
+        "targetAbi": "10.11.5",
+        "changelog": "Initial release with hover trailer functionality.",
+        "checksum": "019ae558a11b780b8df72886e59e3bba",
+        "sourceUrl": "https://github.com/j-vasey/jellyfin-hover-trailers/releases/download/1.0.0/Release-1.0.0.zip",
+        "timestamp": "2025-12-23T15:48:46"
       }
     ]
   }
