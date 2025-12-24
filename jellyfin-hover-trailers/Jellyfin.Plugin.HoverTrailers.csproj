@@ -5,7 +5,7 @@
     <RootNamespace>Jellyfin.Plugin.HoverTrailers</RootNamespace>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-	  <Version>1.0.10</Version>
+	<Version>1.0.10</Version>
   </PropertyGroup>
 
   <ItemGroup>
