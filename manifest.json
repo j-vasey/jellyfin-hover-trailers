@@ -6,6 +6,14 @@
   "description": "Enables hover trailers in Jellyfin web interface.",
   "owner": "J-Vasey",
   "versions": [
+      {
+      "timestamp": "2025-12-23T20:10:00",
+      "changelog": "1.0.8",
+      "targetAbi": "10.11.5",
+      "version": "1.0.8",
+      "checksum": "35d1a2d78f29f8e96d2e73b35788d3ab",
+      "sourceUrl": "https://github.com/j-vasey/jellyfin-hover-trailers/releases/download/1.0.8/Release-1.0.8.zip"
+    },
     {
       "timestamp": "2025-12-23T17:17:51",
       "changelog": "1.0.7 ",
