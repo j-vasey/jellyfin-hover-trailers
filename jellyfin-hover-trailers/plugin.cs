@@ -59,7 +59,7 @@ namespace Jellyfin.Plugin.HoverTrailers
             string scriptTag = $"<script src=\"/Plugins/{Instance?.Id}/Configuration?name=hoverTrailers\"></script>";
 
             // Inject the script before the closing </head> tag
-            return contents.Replace("</head>", $"{scriptTag}\n</head>");
+            return contents.Replace("</body>", $"{scriptTag}\n</body>");
         }
 
         public IEnumerable<PluginPageInfo> GetPages()
