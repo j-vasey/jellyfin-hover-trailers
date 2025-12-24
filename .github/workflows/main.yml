@@ -61,3 +61,4 @@ jobs:
           branch: master # Force the commit action to use master
           commit_message: "chore: update manifest for version ${{ github.event.release.tag_name }}"
           file_pattern: 'manifest.json'
+          skup_checkout: true
