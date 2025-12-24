@@ -1,60 +1,44 @@
 ﻿(function () {
-    let hoverTimeout;
-    let activeIframe = null;
+    const pluginId = "FCBEE76B-7170-410F-9029-B3B2E5F5EDA4";
+    let tmdbKey = "";
 
-    document.addEventListener('mouseover', async function (e) {
-        const card = e.target.closest('.card');
-        if (!card || activeIframe || card.getAttribute('data-type') !== 'Movie') return;
-
-        hoverTimeout = setTimeout(async () => {
-            const itemId = card.getAttribute('data-id');
-            const container = card.querySelector('.cardImageContainer');
-
-            // 1. Get Item Details from Jellyfin API
-            const item = await ApiClient.getItem(ApiClient.getCurrentUserId(), itemId);
-            const tmdbId = item.ProviderIds ? item.ProviderIds.Tmdb : null;
-
-            if (tmdbId) {
-                // 2. Fetch Trailer Key from TMDb
-                const youtubeKey = await fetchTmdbTrailer(tmdbId);
-                if (youtubeKey) {
-                    playTrailer(container, youtubeKey);
-                }
+    function init() {
+        ApiClient.getPluginConfiguration(pluginId).then(function (config) {
+            tmdbKey = config.TmdbApiKey;
+            if (tmdbKey) {
+                console.log("Hover Trailers: Initialized with API Key.");
+                setupEventListeners();
             }
-        }, 800);
-    });
-
-    async function fetchTmdbTrailer(tmdbId) {
-        // Fetch your API Key from the Plugin Configuration
-        const config = await ApiClient.getPluginConfiguration("FCBEE76B-7170-410F-9029-B3B2E5F5EDA4");
-        const apiKey = config.TmdbApiKey;
-
-        if (!apiKey) return null;
-
-        try {
-            const response = await fetch(`https://api.themoviedb.org/3/movie/${tmdbId}/videos?api_key=${apiKey}`);
-            const data = await response.json();
-            // Find the first official YouTube trailer
-            const trailer = data.results.find(v => v.site === 'YouTube' && v.type === 'Trailer' && v.official);
-            return trailer ? trailer.key : null;
-        } catch (e) {
-            console.error("Error fetching TMDb trailer:", e);
-            return null;
-        }
+        });
     }
 
-    function playTrailer(container, key) {
-        activeIframe = document.createElement('iframe');
-        activeIframe.src = `https://www.youtube.com/embed/${key}?autoplay=1&mute=1&controls=0&modestbranding=1`;
-        activeIframe.style.cssText = "position:absolute;top:0;left:0;width:100%;height:100%;border:none;z-index:10;pointer-events:none;";
-        container.appendChild(activeIframe);
+    function setupEventListeners() {
+        document.addEventListener('mouseenter', function (e) {
+            const card = e.target.closest('.card');
+            if (card && !card.querySelector('.hover-trailer-active')) {
+                const itemId = card.getAttribute('data-id');
+                playTrailer(itemId, card);
+            }
+        }, true);
     }
 
-    document.addEventListener('mouseout', (e) => {
-        clearTimeout(hoverTimeout);
-        if (activeIframe && !e.target.closest('.card')) {
-            activeIframe.remove();
-            activeIframe = null;
-        }
-    });
+    async function playTrailer(itemId, card) {
+        const item = await ApiClient.getItem(ApiClient.getCurrentUserId(), itemId);
+        const tmdbId = item.ProviderIds ? item.ProviderIds.Tmdb : null;
+        if (!tmdbId) return;
+
+        fetch(`https://api.themoviedb.org/3/movie/${tmdbId}/videos?api_key=${tmdbKey}`)
+            .then(res => res.json())
+            .then(data => {
+                const trailer = data.results.find(v => v.type === 'Trailer' && v.site === 'YouTube');
+                if (trailer) {
+                    console.log("Playing trailer: " + trailer.key);
+                    // Add player logic here
+                }
+            });
+    }
+
+    if (window.ApiClient) {
+        init();
+    }
 })();

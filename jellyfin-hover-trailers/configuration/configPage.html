@@ -4,14 +4,14 @@
     <title>Hover Trailers Configuration</title>
 </head>
 <body>
-    <div data-role="page" class="page type-interior pluginConfigurationPage" data-require="emby-input,emby-button">
+    <div data-role="page" class="page type-interior pluginConfigurationPage hoverTrailersPage" data-require="emby-input,emby-button">
         <div data-role="content">
             <div class="content-primary">
                 <form class="hoverTrailersConfigurationForm">
                     <div class="inputContainer">
                         <label class="inputLabel" for="TmdbApiKey">TMDb API Key</label>
                         <input is="emby-input" type="text" id="TmdbApiKey" name="TmdbApiKey" label="TMDb API Key" />
-                        <div class="fieldDescription">Enter your API Read Access Token from TMDb settings.</div>
+                        <div class="fieldDescription">Enter your TMDb API Key or Read Access Token.</div>
                     </div>
                     <div>
                         <button is="emby-button" type="submit" class="raised button-confirm block">Save</button>
@@ -21,45 +21,28 @@
         </div>
 
         <script type="text/javascript">
-            var HoverTrailersConfig = {
-                pluginId: "FCBEE76B-7170-410F-9029-B3B2E5F5EDA4"
-            };
+            (function () {
+                const pluginId = "FCBEE76B-7170-410F-9029-B3B2E5F5EDA4";
 
-            $('.hoverTrailersConfigurationForm').on('submit', function (e) {
-                Dashboard.showLoadingMsg();
-                var form = this;
-
-                ApiClient.getPluginConfiguration(HoverTrailersConfig.pluginId).then(function (config) {
-                    config.TmdbApiKey = $('#TmdbApiKey', form).val();
-
-                    ApiClient.updatePluginConfiguration(HoverTrailersConfig.pluginId, config).then(function (result) {
-                        Dashboard.processPluginConfigurationUpdateResult(result);
+                $('.hoverTrailersPage').on('pageshow', function () {
+                    Dashboard.showLoadingMsg();
+                    ApiClient.getPluginConfiguration(pluginId).then(function (config) {
+                        $('#TmdbApiKey').val(config.TmdbApiKey || '');
+                        Dashboard.hideLoadingMsg();
                     });
                 });
-                return false;
-            });
 
-            $('.pluginConfigurationPage').on('pageshow', function () {
-                Dashboard.showLoadingMsg();
-                var form = this;
-
-                ApiClient.getPluginConfiguration(HoverTrailersConfig.pluginId).then(function (config) {
-                    $('#TmdbApiKey', form).val(config.TmdbApiKey || "");
-                    Dashboard.hideLoadingMsg();
+                $('.hoverTrailersConfigurationForm').on('submit', function () {
+                    Dashboard.showLoadingMsg();
+                    ApiClient.getPluginConfiguration(pluginId).then(function (config) {
+                        config.TmdbApiKey = $('#TmdbApiKey').val();
+                        ApiClient.updatePluginConfiguration(pluginId, config).then(function (result) {
+                            Dashboard.processPluginConfigurationUpdateResult(result);
+                        });
+                    });
+                    return false;
                 });
-            });
-
-            (function () {
-                const scriptId = 'hover-trailers-global-script';
-                if (!document.getElementById(scriptId)) {
-                    const script = document.createElement('script');
-                    script.id = scriptId;
-                    // The URL follows the pattern: /Plugins/{GUID}/Configuration?name=hoverTrailersScript
-                    script.src = ApiClient.getUrl('Plugins/FCBEE76B-7170-410F-9029-B3B2E5F5EDA4/Configuration', { name: 'hoverTrailersScript' });
-                    document.head.appendChild(script);
-                }
             })();
-
         </script>
     </div>
 </body>
